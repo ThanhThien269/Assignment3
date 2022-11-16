@@ -18,7 +18,7 @@ app.get("/api/courses", async(req,res)=>{
     try{
         courseRef.get().then((snapshot)=>{
             const items = snapshot.docs.map((doc)=>({
-                id: doc.id,
+                docId: doc.id,
                 ...doc.data()
             }))
             console.log(items);
@@ -36,7 +36,7 @@ app.post("/item", async (req, res) => {
         const body=db.collection('courses').doc();
         
         const item={
-            pdid: Math.round(Math.random() * 10).toString() ,
+            pdid: Math.round(Math.random() * 10+1).toString() ,
             name:name,
             price:price,
             img:img,

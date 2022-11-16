@@ -1,8 +1,8 @@
-import { GETALL_COURSES } from "../Actions/coursesAction";
+import { GETALL_COURSES,CREATE_FOOD} from "../Actions/coursesAction";
 
 const initialState={
    
-    courses:[]
+    foods:[]
 }
 export const coursesReduce =(state=initialState,action)=>{
     switch(action.type)
@@ -10,7 +10,12 @@ export const coursesReduce =(state=initialState,action)=>{
         case GETALL_COURSES:
             return{
                 ...state,
-               courses:[...action.payload] 
+               foods:[...action.payload] 
+            }
+        case CREATE_FOOD:
+            return{
+                ...state,
+                foods:[...state.foods,action.payload]
             }
         default:
             return{...state}
