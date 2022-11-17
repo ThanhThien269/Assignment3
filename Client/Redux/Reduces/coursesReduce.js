@@ -1,4 +1,4 @@
-import { GETALL_COURSES,CREATE_FOOD} from "../Actions/coursesAction";
+import { GETALL_COURSES,CREATE_FOOD,UPDATE_FOOD, DELETE_FOOD} from "../Actions/coursesAction";
 
 const initialState={
    
@@ -16,6 +16,25 @@ export const coursesReduce =(state=initialState,action)=>{
             return{
                 ...state,
                 foods:[...state.foods,action.payload]
+            }
+        case UPDATE_FOOD:
+            return{
+                ...state,
+                foods:state.foods.map((x)=>{
+                    if(x.docId===action.payload.docId){
+                        return{
+                            ...x,
+                            ...payload
+                        }
+                    }else{
+                        return x
+                    }
+                })
+            }
+        case DELETE_FOOD:  
+            return{
+                ...state,
+                foods: state.foods.filter(x => x.docId !== action.payload.docId),
             }
         default:
             return{...state}

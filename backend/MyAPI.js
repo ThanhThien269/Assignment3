@@ -55,11 +55,11 @@ app.post("/item", async (req, res) => {
     }
   
   });
-  app.put("/update", async (req, res) => {
+  app.put("/update/:docId", async (req, res) => {
     const{name,price,img,cateID} =req.body;
     
     try{
-        const docId=req.body.docId
+        const docId=req.params.docId
         const body=db.collection('courses').doc(docId)
         
         const item={
@@ -81,11 +81,11 @@ app.post("/item", async (req, res) => {
     }
   
   });
-  app.delete("/del", async (req, res) => {
+  app.delete("/del/:docId", async (req, res) => {
 
     
     try{
-        const docId=req.body.docId
+        const docId=req.params.docId
         db.collection('courses').doc(docId).delete()
         res.status(200).send({
             message:'successful',
