@@ -2,12 +2,19 @@ export const GETALL_COURSES ='GETALL_COURSES'
 export const CREATE_FOOD ='CREATE_FOOD'
 export const UPDATE_FOOD ='UPDATE_FOOD'
 export const DELETE_FOOD ='DELETE_FOOD'
+export const SEARCH_FOOD ='SEARCH_FOOD'
 
 
 export const getAllCourses=(courses)=>{
     return{
         type:GETALL_COURSES,
         payload:courses
+    }
+}
+export const getByName=(food)=>{
+    return{
+        type:SEARCH_FOOD,
+        payload:food
     }
 }
 export const creeateFood=(food)=>{
@@ -104,5 +111,20 @@ export const deleteF=(docId)=>{
         }
         deleteData();
         dispatch(deleteFood(docId))
+    }
+}
+export const Search=(name)=>{
+    return(dispatch)=>{
+        const lookingForData=async()=>{
+            try{
+                const res= await fetch(`http://localhost:9001/item/${name}`);
+                const kw = await res.json();
+                dispatch(getByName(kw))
+            }catch(err){
+                console.log(err)
+    
+                }
+        }
+        lookingForData()
     }
 }

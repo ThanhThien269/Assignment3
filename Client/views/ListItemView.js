@@ -1,9 +1,9 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, View, Image,Dimensions, ImageBackground, TouchableOpacity } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Image,Dimensions, ImageBackground, TouchableOpacity, TextInput } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 
-import { fetchAllCourses, getAllCourses } from '../Redux/Actions/coursesAction';
+import { fetchAllCourses, getAllCourses, Search } from '../Redux/Actions/coursesAction';
 import store from '../Redux/Stores/Store';
 import { useEffect } from 'react';
 
@@ -19,8 +19,12 @@ const ListItemView = ({
         // setData(db.courses)
         console.log(data)
     },[]
-       
+    
     )
+    // const [name,setName] = useState('');
+    // const look=(name)=>{
+    //     dispatch(Search(name))
+    // }
     const HeaderComponent=()=>{
         return(
             <View style={styles.headerListComponent}>
@@ -50,6 +54,12 @@ const ListItemView = ({
         
         <View style={styles.ListItemContainer}>
             <ImageBackground style={styles.background} resizeMode='cover' source={{uri:'https://media.istockphoto.com/id/953140058/photo/cooking-nd-seasoning-spices-border-on-black-slate-background.jpg?b=1&s=170667a&w=0&k=20&c=8Vmnl8mHhMmc2WvnEEj0RDajvg75bizccWzrTXIh2z8='}}>
+            {/* <View style={{flexDirection:'row'}}>
+                <TextInput placeholder='Tìm kiếm'  onChangeText={(val)=>setName(val)}  />
+                <TouchableOpacity onPress={() => look()}> 
+                    <Text> Search</Text>
+                </TouchableOpacity>
+            </View> */}
             <FlatList
                 
                 numColumns={2}

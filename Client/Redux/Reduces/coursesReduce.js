@@ -1,4 +1,4 @@
-import { GETALL_COURSES,CREATE_FOOD,UPDATE_FOOD, DELETE_FOOD} from "../Actions/coursesAction";
+import { GETALL_COURSES,CREATE_FOOD,UPDATE_FOOD, DELETE_FOOD, SEARCH_FOOD} from "../Actions/coursesAction";
 
 const initialState={
    
@@ -11,6 +11,11 @@ export const coursesReduce =(state=initialState,action)=>{
             return{
                 ...state,
                foods:[...action.payload] 
+            }
+        case SEARCH_FOOD:
+            return{
+                ...state,
+               foods:[...action.payload]
             }
         case CREATE_FOOD:
             return{

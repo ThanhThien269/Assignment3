@@ -18,6 +18,9 @@ const Edit = ({
     const {productId} = route.params;
     const {productImg} =route.params;
     const {productName} =route.params;
+    const {productPrice}=route.params;
+    const {productCId} = route.params;
+
     
     
     const [docId,setdocId]=useState(productId);
@@ -117,21 +120,18 @@ const Edit = ({
                 
                 style={styles.bgContainer}
             >
-            <Text style={styles.title}>{productName} </Text>
+           
             <Image source={{uri:selectedImage.localURI}}
                 style={styles.img}/>
                 <TouchableOpacity  onPress={openImage}>
                     <Text>Choose Image</Text>
                 </TouchableOpacity>
-                <View style={styles.inputContainer}>
-                        <TextInput  placeholder='ID danh mục' style={styles.inputText} onChangeText={(val)=>setCId(val)}/>
-                    </View>
-                    {/* check val */}
+
                     <View style={styles.inputContainer}>
-                        <TextInput  placeholder='Tên sản phẩm' style={styles.inputText} onChangeText={(val)=>setName(val)}/>
+                        <TextInput  placeholder={productName} style={styles.inputText} onChangeText={(val)=>setName(val)}/>
                     </View>
                     <View style={styles.inputContainer}>
-                        <TextInput  placeholder='Giá tiền' style={styles.inputText} onChangeText={(val)=>setPrice(val)}/>
+                        <TextInput  placeholder={productPrice}  style={styles.inputText} onChangeText={(val)=>setPrice(val)}/>
                     </View>
                     <View style={styles.inputContainer}>
                         <TextInput  placeholder='Hình ảnh' style={styles.inputText} value={selectedImage.localURI}/>
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 2,
         borderBottomColor: '#d81b60',
         paddingVertical:10,
-   
+        flexWrap:'wrap',
         paddingLeft: 15,
     },
     bgContainer: {
