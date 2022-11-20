@@ -28,6 +28,20 @@ app.get("/api/courses", async(req,res)=>{
         res.status(500).json({message:error});
     }
 })
+app.get("/item/:name",async(req,res)=>{
+    const name=req.body.name
+    await db.collection("courses").get(name)
+    .then((snapshot)=>{
+        const items = snapshot.docs.map((doc)=>({
+            docId: doc.id,
+            ...doc.data()
+        }))
+        console.log(items);
+        res.status(201).json(items);
+    })
+    
+   
+})
 
 app.post("/item", async (req, res) => {
     const{name,price,img,cateID} =req.body;
@@ -96,3 +110,13 @@ app.post("/item", async (req, res) => {
     }
   
   });
+  app.delete("/api/deleteAll/:name",async(req,res)=>{
+    const params = req.params.name
+    let querySnapshot=db.collection(params).get()
+    .then((res)=>{
+        res.forEach((element)=>{
+            element.ref.delete();
+        })
+    })
+    res.send(querySnapshot)
+  })
