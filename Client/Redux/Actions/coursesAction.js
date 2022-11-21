@@ -11,12 +11,33 @@ export const getAllCourses=(courses)=>{
         payload:courses
     }
 }
+export const fetchSearchFood=(key)=>{
+    return (dispatch)=>{
+      const getData = async () => {
+        try {
+            const response = await fetch("http://localhost:9001/api/"+key);
+            const foods = await response.json();
+            // console.log(books)
+            dispatch(SearchFood(foods))
+        } catch (err) {
+            console.error(err);
+        }
+    };
+    getData();
+    }
+  }
 export const getByName=(food)=>{
     return{
         type:SEARCH_FOOD,
         payload:food
     }
 }
+export const SearchFood = (food) => {
+    return {
+      type: SEARCH_FOOD,
+      payload:food
+    };
+  };
 export const creeateFood=(food)=>{
     return{
         type:CREATE_FOOD,

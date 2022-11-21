@@ -28,6 +28,32 @@ app.get("/api/courses", async(req,res)=>{
         res.status(500).json({message:error});
     }
 })
+
+app.get("/api/:keyword", async(req,res)=>{
+    const courseRef =db.collection('courses');
+    try {
+        courseRef.get().then((snapshot) => {
+            const data = snapshot.docs.map((value) => (
+                {
+                    id: value.id,
+                    ...value.data(),
+                }
+            ));
+            let key = req.params.keyword
+            const newData = data.filter((item) => {
+                const itemData = item.name
+                    ? item.name.toLowerCase()
+                    : ''.toLowerCase();
+                const textData = key.toLowerCase();
+                return itemData.indexOf(textData) > -1;
+            });
+            res.status(200).json(newData);
+        })
+    } catch (err) {
+        res.status(500).json(err);
+    }
+})
+
 app.get("/item/:name",async(req,res)=>{
     const name=req.body.name
     await db.collection("courses").get(name)

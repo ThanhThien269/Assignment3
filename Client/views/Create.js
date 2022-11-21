@@ -1,16 +1,14 @@
-import React from 'react';
-import { useState } from 'react';
 import {Platform, ImageBackground, StyleSheet ,Text, TouchableOpacity, View ,TextInput} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { postFood } from '../Redux/Actions/coursesAction';
 import {getStorage,uploadString,ref,getDownloadURL, uploadBytesResumable} from 'firebase/storage'
+import { useState } from 'react';
 
 import * as ImagePicker from 'expo-image-picker'
-import { coursesReduce } from '../Redux/Reduces/coursesReduce';
-import store from '../Redux/Stores/Store';
-import IonIcons from 'react-native-vector-icons/IonIcons';
+import Ionicons from "react-native-vector-icons/Ionicons";
+
 const Create = ({
-    params,
+    navigation,
 }) => {
     const dispatch =useDispatch();
     const db=useSelector((store)=>store.courses);
@@ -36,7 +34,7 @@ const Create = ({
             img: selectedImage.localURI,
         }
         dispatch(postFood(newFood));
-        navigation.navigate('ViewAll')
+        navigation.navigate('ViewAll');
     }
     const [selectedImage, setSelectedImage]=useState({localURI:''})
     const openImage =async()=>{
@@ -111,7 +109,7 @@ const Create = ({
                 style={styles.bgContainer}
             >
                 <View style={styles.logoLogin}>
-                    <IonIcons name='create' color='#FFF' size={36}/>
+                    <Ionicons name='create' color='#FFF' size={36}/>
                 </View>
                 <Text style={styles.signinText}>    
                     Thêm món ăn
@@ -130,11 +128,11 @@ const Create = ({
                     <View style={styles.inputContainer}>
                         <TextInput  placeholder='Hình ảnh' style={styles.inputText} value={selectedImage.localURI}/>
                         <TouchableOpacity style={styles.btn} onPress={openImage}>
-                            <Text>Choose Image</Text>
+                            <Text style={{color:'white'}}>Chọn tệp hình ảnh</Text>
                         </TouchableOpacity>
                     </View>
                     <TouchableOpacity style={styles.btn} onPress={() => save()}>
-                        <Text style={styles.btnTxt} >Lưu</Text>
+                        <Text style={styles.btnTxt} >Thêm món ăn</Text>
                     </TouchableOpacity>
                 </View>
             </ImageBackground>
@@ -180,6 +178,7 @@ const styles = StyleSheet.create({
         paddingVertical:10,
         color: '#FFF',
         paddingLeft: 15,
+        fontSize: 14
     },
     btn: {
         backgroundColor: '#d81b60',
