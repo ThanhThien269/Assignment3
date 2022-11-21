@@ -15,7 +15,7 @@ export const coursesReduce = (state = initialState, action) => {
             return {
                 ...state,
                 foods: [...action.payload],
-                
+
             };
         case CREATE_FOOD:
             return {
@@ -29,7 +29,7 @@ export const coursesReduce = (state = initialState, action) => {
                     if (x.docId === action.payload.docId) {
                         return {
                             ...x,
-                            ...payload
+                            ...action.payload
                         }
                     } else {
                         return x
