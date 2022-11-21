@@ -15,7 +15,7 @@ export const fetchSearchFood=(key)=>{
     return (dispatch)=>{
       const getData = async () => {
         try {
-            const response = await fetch("http://localhost:9001/api/"+key);
+            const response = await fetch("http://192.168.1.3:9001/api/"+key);
             const foods = await response.json();
             // console.log(books)
             dispatch(SearchFood(foods))
@@ -62,7 +62,7 @@ export const fetchAllCourses =()=>
     return(dispatch)=>{
         const getData =async()=>{
             try{
-                const response = await fetch('http://localhost:9001/api/courses');
+                const response = await fetch('http://192.168.1.3:9001/api/courses');
                 const courses = await response.json();
                 console.log('here',courses)
                 dispatch(getAllCourses(courses));
@@ -78,7 +78,7 @@ export const postFood=(food)=>{
     return (dispatch)=>{
         const postData=async()=>{
             try{
-                await fetch('http://localhost:9001/item',{
+                await fetch('http://192.168.1.3:9001/item',{
                     method:"POST",
                     headers:{
                         Accept:"application/json","Content-Type":"application/json",
@@ -99,7 +99,7 @@ export const update=(docId,food)=>{
     return(dispatch)=>{
         const updateData=async()=>{
         try{
-            await fetch(`http://localhost:9001/update/${docId}`,{
+            await fetch(`http://192.168.1.3:9001/update/${docId}`,{
                 method:"PUT",
                 headers:{
                     Accept:"application/json","Content-Type":"application/json",
@@ -120,7 +120,7 @@ export const deleteF=(docId)=>{
     return(dispatch)=>{
         const deleteData=async()=>{
             try{
-                await fetch(`http://localhost:9001/del/${docId}`,{
+                await fetch(`http://192.168.1.3:9001/del/${docId}`,{
                     
                     method:"DELETE",
                     
@@ -138,7 +138,7 @@ export const Search=(name)=>{
     return(dispatch)=>{
         const lookingForData=async()=>{
             try{
-                const res= await fetch(`http://localhost:9001/item/${name}`);
+                const res= await fetch(`http://192.168.1.3:9001/item/${name}`);
                 const kw = await res.json();
                 dispatch(getByName(kw))
             }catch(err){

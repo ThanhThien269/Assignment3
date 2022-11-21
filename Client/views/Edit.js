@@ -1,15 +1,15 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Platform, ImageBackground, Image, StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteF, postFood, update } from '../Redux/Actions/coursesAction';
-import { getStorage, uploadString, ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
+import { deleteF, update } from '../Redux/Actions/coursesAction';
+import { firebase } from "../Config/firebase";
+import {getStorage, uploadString, ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 
 import * as ImagePicker from 'expo-image-picker'
 
 
 const Edit = ({
-    route
+    route, navigation
 }) => {
     const dispatch = useDispatch();
     const db = useSelector((store) => store.courses);
@@ -28,7 +28,6 @@ const Edit = ({
     const [CId, setCId] = useState(0);
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
-
     const handleUpdate = (docId) => {
         let newFood = {
             cateID: CId,
@@ -48,16 +47,16 @@ const Edit = ({
 
     const [selectedImage, setSelectedImage] = useState({ localURI: productImg })
     const openImage = async () => {
-        const result = await ImagePicker.launchImageLibraryAsync({ base64: true })
+        const result = await ImagePicker.launchImageLibraryAsync({ base64: true });
         if (result.cancelled)
             return;
         // console.log(result)
         let uri = result.uri;
-        setSelectedImage({ localURI: result.uri })
+        // setSelectedImage({ localURI: result.uri });
         if (Platform.OS === 'web') {
             let base64code = result.base64;
             //upload
-            await uploadBase64(base64code)
+            await uploadBase64(base64code);
         } else {
             let uri = result.uri;
             //step1 -> convert uri --> blob
@@ -73,16 +72,16 @@ const Edit = ({
                 resolve(xmlRequest.response);
             }
             xmlRequest.onerror = function () {
-                console.log("error")
+                reject(new TypeError("Request failed"));
             }
             xmlRequest.responseType = 'blob';
             xmlRequest.open("GET", uri, true);
-            xmlRequest.send(null)
+            xmlRequest.send(null);
         })
         return result;
     }
     const uploadFile = async (blobFile) => {
-        let imgname = 'img-android-' + new Date().getTime();
+        let imgname = 'img-android' + new Date().getTime();
         //step2
         let storage = getStorage();
         let storageRef = ref(storage, `Image/${imgname}.jpg`);
@@ -95,8 +94,10 @@ const Edit = ({
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     console.log('downloadURL', downloadURL)
+                    setSelectedImage({ localURI: downloadURL })
                 })
-            })
+            }
+        )
     }
     const uploadBase64 = async (base64code) => {
         let imgname = 'img-w-' + new Date().getTime();
@@ -107,6 +108,7 @@ const Edit = ({
         uploadString(storageRef, base64code, 'base64', metadata).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((downloadURL) => {
                 console.log('downloadURL', downloadURL)
+                setSelectedImage({ localURI: downloadURL });
             })
         })
     }
@@ -134,7 +136,7 @@ const Edit = ({
                     <TextInput placeholder={productPrice} style={styles.inputText} onChangeText={(val) => setPrice(val)} />
                 </View>
                 <View style={styles.inputContainer}>
-                    <TextInput placeholder='Hình ảnh' style={styles.inputText} value={selectedImage.localURI} />
+                    <TextInput placeholder='Hình ảnh' style={styles.inputText} value={selectedImage.localURI}/>
                 </View>
                 <TouchableOpacity style={styles.btn} onPress={() => handleUpdate(docId)}>
                     <Text style={styles.btnTxt} >Sửa món ăn</Text>
@@ -144,9 +146,6 @@ const Edit = ({
                 </TouchableOpacity>
             </ImageBackground>
         </View>
-
-
-
     );
 }
 
